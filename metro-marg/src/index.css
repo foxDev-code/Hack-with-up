@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-gradient-primary font-sans antialiased;
+  }
+}
+
+/* Glassmorphism utilities */
+@layer utilities {
+  .backdrop-blur-glass {
+    backdrop-filter: blur(15px) saturate(180%);
+  }
+  .backdrop-blur-glass-strong {
+    backdrop-filter: blur(20px) saturate(150%);
+  }
+  .backdrop-blur-glass-intense {
+    backdrop-filter: blur(30px) saturate(150%);
+  }
+}
+
+/* Support for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

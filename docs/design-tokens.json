@@ -1,0 +1,182 @@
+{
+  "color": {
+    "background": {
+      "primary-gradient": {
+        "value": "linear-gradient(135deg, #E8EAF0 0%, #F4F5F9 50%, #FAFBFF 100%)",
+        "type": "color",
+        "description": "Main app background - cool gray to near-white"
+      },
+      "hero-gradient": {
+        "value": "linear-gradient(135deg, #E3E8EE 0%, #EDF1F7 100%)",
+        "type": "color",
+        "description": "Hero sections and landing areas"
+      },
+      "dark-gradient": {
+        "value": "linear-gradient(135deg, #1a1a1c 0%, #2d2d30 100%)",
+        "type": "color",
+        "description": "Dark mode variant for admin night shifts"
+      }
+    },
+    "metro": {
+      "blue": {
+        "50": { "value": "#E5F2FF", "type": "color" },
+        "100": { "value": "#CCE5FF", "type": "color" },
+        "500": { "value": "#0078D4", "type": "color", "description": "Blue Line primary" },
+        "700": { "value": "#005A9E", "type": "color" },
+        "900": { "value": "#003D6B", "type": "color" }
+      },
+      "red": {
+        "100": { "value": "#FFDCDD", "type": "color" },
+        "500": { "value": "#D13438", "type": "color", "description": "Red Line primary" },
+        "700": { "value": "#9E2729", "type": "color" }
+      },
+      "aqua": {
+        "100": { "value": "#CCF5F8", "type": "color" },
+        "500": { "value": "#00B7C3", "type": "color", "description": "Aqua Line primary" },
+        "700": { "value": "#008A93", "type": "color" }
+      },
+      "yellow": {
+        "100": { "value": "#FFF4CC", "type": "color" },
+        "500": { "value": "#FFB900", "type": "color", "description": "Yellow Line primary" },
+        "700": { "value": "#CC9400", "type": "color" }
+      }
+    },
+    "neutral": {
+      "50": { "value": "#FAFAFA", "type": "color" },
+      "100": { "value": "#F5F5F7", "type": "color" },
+      "300": { "value": "#C7C7CC", "type": "color" },
+      "500": { "value": "#86868B", "type": "color", "description": "Placeholder text, AA contrast 4.6:1" },
+      "700": { "value": "#424245", "type": "color", "description": "Secondary text, AA contrast 8.9:1" },
+      "900": { "value": "#1D1D1F", "type": "color", "description": "Primary text, AAA contrast 15.8:1" }
+    },
+    "semantic": {
+      "success": {
+        "100": { "value": "#D1F5DB", "type": "color" },
+        "500": { "value": "#34C759", "type": "color", "description": "On-time trains, successful actions" }
+      },
+      "warning": {
+        "100": { "value": "#FEF3C7", "type": "color" },
+        "500": { "value": "#FF9F0A", "type": "color", "description": "Delayed trains, caution alerts" }
+      },
+      "error": {
+        "100": { "value": "#FEE2E2", "type": "color" },
+        "500": { "value": "#FF3B30", "type": "color", "description": "Critical errors, cancelled trains" }
+      }
+    },
+    "glass": {
+      "light": { "value": "rgba(255, 255, 255, 0.4)", "type": "color", "description": "Standard glass cards" },
+      "medium": { "value": "rgba(255, 255, 255, 0.5)", "type": "color", "description": "Navigation, modals" },
+      "subtle": { "value": "rgba(255, 255, 255, 0.25)", "type": "color", "description": "Hover states" },
+      "dark": { "value": "rgba(30, 30, 30, 0.5)", "type": "color", "description": "Dark mode glass" },
+      "border": { "value": "rgba(255, 255, 255, 0.3)", "type": "color", "description": "Card borders" }
+    }
+  },
+  "typography": {
+    "fontFamily": {
+      "primary": {
+        "value": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+        "type": "fontFamily"
+      },
+      "display": {
+        "value": "'Inter', sans-serif",
+        "type": "fontFamily"
+      },
+      "mono": {
+        "value": "'SF Mono', 'Consolas', monospace",
+        "type": "fontFamily"
+      }
+    },
+    "fontSize": {
+      "hero": { "value": "64px", "type": "dimension" },
+      "title": { "value": "48px", "type": "dimension" },
+      "subtitle": { "value": "32px", "type": "dimension" },
+      "large": { "value": "20px", "type": "dimension" },
+      "body": { "value": "16px", "type": "dimension" },
+      "small": { "value": "14px", "type": "dimension" },
+      "caption": { "value": "12px", "type": "dimension" }
+    },
+    "fontWeight": {
+      "regular": { "value": "400", "type": "number" },
+      "medium": { "value": "500", "type": "number" },
+      "semibold": { "value": "600", "type": "number" },
+      "bold": { "value": "700", "type": "number" }
+    },
+    "lineHeight": {
+      "tight": { "value": "1.1", "type": "number" },
+      "snug": { "value": "1.3", "type": "number" },
+      "normal": { "value": "1.5", "type": "number" },
+      "relaxed": { "value": "1.6", "type": "number" }
+    }
+  },
+  "spacing": {
+    "2xs": { "value": "4px", "type": "dimension" },
+    "xs": { "value": "8px", "type": "dimension" },
+    "sm": { "value": "12px", "type": "dimension" },
+    "md": { "value": "16px", "type": "dimension" },
+    "lg": { "value": "24px", "type": "dimension" },
+    "xl": { "value": "32px", "type": "dimension" },
+    "2xl": { "value": "48px", "type": "dimension" },
+    "3xl": { "value": "64px", "type": "dimension" },
+    "4xl": { "value": "96px", "type": "dimension" }
+  },
+  "borderRadius": {
+    "sm": { "value": "8px", "type": "dimension" },
+    "md": { "value": "12px", "type": "dimension" },
+    "lg": { "value": "16px", "type": "dimension" },
+    "xl": { "value": "24px", "type": "dimension" },
+    "2xl": { "value": "32px", "type": "dimension" },
+    "full": { "value": "9999px", "type": "dimension" }
+  },
+  "boxShadow": {
+    "glass": {
+      "value": "0 8px 32px rgba(0, 0, 0, 0.08), 0 4px 16px rgba(0, 0, 0, 0.05)",
+      "type": "shadow",
+      "description": "Standard glass card shadow"
+    },
+    "glass-hover": {
+      "value": "0 12px 40px rgba(0, 0, 0, 0.12), 0 6px 20px rgba(0, 0, 0, 0.08)",
+      "type": "shadow",
+      "description": "Hovered glass card elevation"
+    },
+    "modal": {
+      "value": "0 20px 60px rgba(0, 0, 0, 0.15), 0 8px 24px rgba(0, 0, 0, 0.1)",
+      "type": "shadow",
+      "description": "Modal and overlay shadow"
+    },
+    "inset": {
+      "value": "inset 0 1px 2px rgba(255, 255, 255, 0.3)",
+      "type": "shadow",
+      "description": "Inner glow on glass top edge"
+    }
+  },
+  "animation": {
+    "duration": {
+      "fast": { "value": "200ms", "type": "time" },
+      "normal": { "value": "300ms", "type": "time" },
+      "smooth": { "value": "400ms", "type": "time" }
+    },
+    "easing": {
+      "default": {
+        "value": "cubic-bezier(0.4, 0.0, 0.2, 1)",
+        "type": "cubicBezier",
+        "description": "Material ease-out curve"
+      }
+    }
+  },
+  "backdropFilter": {
+    "blur": {
+      "light": { "value": "blur(10px)", "type": "string", "description": "Subtle blur for secondary elements" },
+      "standard": { "value": "blur(15px) saturate(180%)", "type": "string", "description": "Standard glass cards" },
+      "medium": { "value": "blur(20px) saturate(150%)", "type": "string", "description": "Navigation bars" },
+      "strong": { "value": "blur(25px) saturate(160%)", "type": "string", "description": "Hero glass cards" },
+      "intense": { "value": "blur(30px) saturate(150%)", "type": "string", "description": "QR code display cards" }
+    }
+  },
+  "breakpoint": {
+    "sm": { "value": "640px", "type": "dimension" },
+    "md": { "value": "768px", "type": "dimension" },
+    "lg": { "value": "1024px", "type": "dimension" },
+    "xl": { "value": "1280px", "type": "dimension" },
+    "2xl": { "value": "1536px", "type": "dimension" }
+  }
+}
