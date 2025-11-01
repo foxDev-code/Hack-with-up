@@ -6,6 +6,7 @@ CREATE TABLE routes (
     base_fare DECIMAL(10,2) NOT NULL,
     travel_time_minutes INTEGER,
     interchange_stations JSONB DEFAULT '[]',
+    less_crowded_suggestions JSONB DEFAULT '[]',
     route_path JSONB NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );

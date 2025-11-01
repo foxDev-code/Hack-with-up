@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Navigation } from '@/components/Navigation';
 import { GlassCard, GlassButton, GlassInput, MetroLineBadge } from '@/components/GlassComponents';
 import { supabase, Station, Route as RouteType } from '@/lib/supabase';
-import { MapPin, ArrowRight, Clock, DollarSign, Navigation as NavIcon } from 'lucide-react';
+import { MapPin, ArrowRight, Clock, DollarSign, Navigation as NavIcon, Shuffle, Users, Train as TrainIcon } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export function RouteFinderPage() {
@@ -88,6 +88,22 @@ export function RouteFinderPage() {
     return 'blue';
   }
 
+  function getStationName(stationId: string): string {
+    const station = stations.find(s => s.id === stationId);
+    return station ? station.name : 'Unknown Station';
+  }
+
+  // Function to get line color class for styling
+  function getLineColorClass(line: string): string {
+    switch (line) {
+      case 'blue': return 'bg-metro-blue-500';
+      case 'red': return 'bg-metro-red-500';
+      case 'aqua': return 'bg-metro-aqua-500';
+      case 'yellow': return 'bg-metro-yellow-500';
+      default: return 'bg-metro-blue-500';
+    }
+  }
+
   return (
     <div className="min-h-screen bg-gradient-primary">
       <Navigation />
@@ -170,7 +186,7 @@ export function RouteFinderPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
               >
-                <GlassCard variant="light" className="p-8">
+                <GlassCard variant="light" className="p-8 mb-8">
                   <h2 className="text-2xl font-bold text-neutral-900 mb-6">
                     Route Details
                   </h2>
@@ -198,6 +214,121 @@ export function RouteFinderPage() {
                       </div>
                       <div className="flex justify-end">
                         <MetroLineBadge line={getMetroLineColor(route.to_station_id)} />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Interchange Information */}
+                  {route.interchange_stations && route.interchange_stations.length > 0 && (
+                    <div className="mb-8">
+                      <h3 className="text-xl font-bold text-neutral-900 mb-4 flex items-center gap-2">
+                        <Shuffle className="w-5 h-5 text-metro-aqua-500" />
+                        Interchange Stations
+                      </h3>
+                      <div className="space-y-3">
+                        {route.interchange_stations.map((interchange: any, index: number) => (
+                          <GlassCard key={index} variant="subtle" className="p-4">
+                            <div className="flex items-center justify-between">
+                              <div>
+                                <div className="font-semibold text-neutral-900">
+                                  {interchange.station_name}
+                                </div>
+                                <div className="text-sm text-neutral-700">
+                                  Change to {interchange.line_change ? 'different line' : 'same line'}
+                                </div>
+                              </div>
+                              <div className="text-sm font-semibold text-metro-blue-500">
+                                Wait: {interchange.wait_time} min
+                              </div>
+                            </div>
+                          </GlassCard>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Upcoming Stations with Visual Route Line */}
+                  <div className="mb-8">
+                    <h3 className="text-xl font-bold text-neutral-900 mb-4">
+                      Journey Path
+                    </h3>
+                    <div className="relative">
+                      {/* Route line */}
+                      <div className="absolute left-4 top-0 bottom-0 w-1 bg-metro-blue-300 transform translate-x-1/2"></div>
+                      
+                      {/* Stations */}
+                      <div className="space-y-6 pl-12">
+                        {/* Starting station */}
+                        <div className="relative">
+                          {/* Blinking light for current station */}
+                          <div className="absolute left-[-28px] top-1/2 transform -translate-y-1/2">
+                            <div className="w-4 h-4 rounded-full bg-metro-blue-500 animate-pulse"></div>
+                          </div>
+                          <div className="bg-white/20 rounded-lg p-4">
+                            <div className="flex items-center gap-2">
+                              <TrainIcon className="w-5 h-5 text-metro-blue-500" />
+                              <span className="font-semibold text-neutral-900">
+                                {getStationName(route.from_station_id)}
+                              </span>
+                              <span className="text-xs px-2 py-1 bg-metro-blue-100 text-metro-blue-700 rounded">
+                                Start
+                              </span>
+                            </div>
+                            <div className="mt-1">
+                              <MetroLineBadge line={getMetroLineColor(route.from_station_id)} />
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Interchange station (if exists) */}
+                        {route.interchange_stations && route.interchange_stations.length > 0 && (
+                          route.interchange_stations.map((interchange: any, index: number) => (
+                            <div key={index} className="relative">
+                              {/* Interchange indicator */}
+                              <div className="absolute left-[-32px] top-1/2 transform -translate-y-1/2">
+                                <div className="w-6 h-6 rounded-full bg-metro-aqua-500 flex items-center justify-center">
+                                  <Shuffle className="w-3 h-3 text-white" />
+                                </div>
+                              </div>
+                              <div className="bg-white/20 rounded-lg p-4 border-2 border-metro-aqua-500">
+                                <div className="flex items-center gap-2">
+                                  <Shuffle className="w-5 h-5 text-metro-aqua-500" />
+                                  <span className="font-semibold text-neutral-900">
+                                    {interchange.station_name}
+                                  </span>
+                                  <span className="text-xs px-2 py-1 bg-metro-aqua-100 text-metro-aqua-700 rounded">
+                                    Interchange
+                                  </span>
+                                </div>
+                                <div className="mt-2 text-sm text-neutral-700">
+                                  Change to different line • Wait: {interchange.wait_time} min
+                                </div>
+                              </div>
+                            </div>
+                          ))
+                        )}
+
+                        {/* Destination station */}
+                        <div className="relative">
+                          {/* End point indicator */}
+                          <div className="absolute left-[-28px] top-1/2 transform -translate-y-1/2">
+                            <div className="w-4 h-4 rounded-full bg-metro-red-500"></div>
+                          </div>
+                          <div className="bg-white/20 rounded-lg p-4">
+                            <div className="flex items-center gap-2">
+                              <MapPin className="w-5 h-5 text-metro-red-500" />
+                              <span className="font-semibold text-neutral-900">
+                                {getStationName(route.to_station_id)}
+                              </span>
+                              <span className="text-xs px-2 py-1 bg-metro-red-100 text-metro-red-700 rounded">
+                                Destination
+                              </span>
+                            </div>
+                            <div className="mt-1">
+                              <MetroLineBadge line={getMetroLineColor(route.to_station_id)} />
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -240,6 +371,35 @@ export function RouteFinderPage() {
                       </div>
                     </GlassCard>
                   </div>
+
+                  {/* Less Crowded Route Suggestions */}
+                  {route.less_crowded_suggestions && route.less_crowded_suggestions.length > 0 && (
+                    <div className="mb-8">
+                      <h3 className="text-xl font-bold text-neutral-900 mb-4 flex items-center gap-2">
+                        <Users className="w-5 h-5 text-metro-green-500" />
+                        Less Crowded Options
+                      </h3>
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        {route.less_crowded_suggestions.map((suggestion: any, index: number) => (
+                          <GlassCard key={index} variant="subtle" className="p-4">
+                            <div className="flex items-center justify-between">
+                              <div>
+                                <div className="font-semibold text-neutral-900">
+                                  {suggestion.train_number}
+                                </div>
+                                <div className="text-sm text-neutral-700">
+                                  Occupancy: {suggestion.occupancy_percentage}%
+                                </div>
+                              </div>
+                              <div className="w-16 h-16 rounded-full flex items-center justify-center bg-success-100">
+                                <Users className="w-6 h-6 text-success-500" />
+                              </div>
+                            </div>
+                          </GlassCard>
+                        ))}
+                      </div>
+                    </div>
+                  )}
 
                   {/* Book Ticket Button */}
                   <GlassButton

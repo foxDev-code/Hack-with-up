@@ -63,7 +63,17 @@ export interface Route {
   distance_km: number;
   base_fare: number;
   travel_time_minutes: number;
-  interchange_stations: string[];
+  interchange_stations: Array<{
+    station_id: string;
+    station_name: string;
+    line_change: boolean;
+    wait_time: number;
+  }>;
+  less_crowded_suggestions: Array<{
+    train_number: string;
+    occupancy_percentage: number;
+    line_id: string;
+  }>;
   route_path: string[];
   created_at: string;
 }

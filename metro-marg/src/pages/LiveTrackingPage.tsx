@@ -3,7 +3,7 @@ import { Navigation } from '@/components/Navigation';
 import { GlassCard, MetroLineBadge, StatusDot } from '@/components/GlassComponents';
 import { supabase, Train, Station } from '@/lib/supabase';
 import { motion } from 'framer-motion';
-import { Train as TrainIcon, MapPin } from 'lucide-react';
+import { Train as TrainIcon, MapPin, Navigation as NavigationIcon, Shuffle, ArrowRight } from 'lucide-react';
 
 export function LiveTrackingPage() {
   const [selectedLine, setSelectedLine] = useState<string>('BL');
@@ -75,6 +75,28 @@ export function LiveTrackingPage() {
     return 'bg-error-500';
   }
 
+  function getUpcomingStations(currentStationId: string | null) {
+    if (!currentStationId) return [];
+    
+    const currentIndex = stations.findIndex(s => s.id === currentStationId);
+    if (currentIndex === -1) return [];
+    
+    // Return next 3 stations
+    return stations.slice(currentIndex + 1, currentIndex + 4);
+  }
+
+  // Function to check if a station is an interchange station
+  function isInterchangeStation(stationId: string) {
+    // Common interchange stations in Delhi Metro (simplified for demo)
+    const interchangeStations = [
+      'Rajiv Chowk', 'Central Secretariat', 'Kashmere Gate', 
+      'New Delhi', 'Botanical Garden', 'Noida City Centre'
+    ];
+    
+    const station = stations.find(s => s.id === stationId);
+    return station ? interchangeStations.includes(station.name) : false;
+  }
+
   return (
     <div className="min-h-screen bg-gradient-primary">
       <Navigation />
@@ -124,6 +146,11 @@ export function LiveTrackingPage() {
                 ) : (
                   trains.map((train) => {
                     const occupancyPercentage = getOccupancyPercentage(train);
+                    const upcomingStations = getUpcomingStations(train.current_station_id);
+                    const currentIndex = train.current_station_id 
+                      ? stations.findIndex(s => s.id === train.current_station_id) 
+                      : -1;
+                    
                     return (
                       <motion.div
                         key={train.id}
@@ -146,6 +173,8 @@ export function LiveTrackingPage() {
                                   <span className="text-sm text-neutral-700">
                                     {getStationName(train.current_station_id)}
                                   </span>
+                                  {/* Blinking light for current station */}
+                                  <div className="w-2 h-2 rounded-full bg-metro-blue-500 animate-pulse"></div>
                                 </div>
                               </div>
                             </div>
@@ -173,6 +202,56 @@ export function LiveTrackingPage() {
                               </div>
                             </div>
                           </div>
+
+                          {/* Upcoming Stations with Blinking Lights and Interchange Information */}
+                          {upcomingStations.length > 0 && (
+                            <div className="mt-4 pt-4 border-t border-white/20">
+                              <div className="flex items-center gap-2 mb-3">
+                                <NavigationIcon className="w-4 h-4 text-metro-aqua-500" />
+                                <span className="text-sm font-semibold text-neutral-900">Upcoming Stations:</span>
+                              </div>
+                              <div className="relative pl-6">
+                                {/* Route line */}
+                                <div className="absolute left-2 top-3 bottom-3 w-0.5 bg-metro-blue-300"></div>
+                                
+                                {/* Stations with blinking lights and interchange information */}
+                                <div className="space-y-3">
+                                  {upcomingStations.map((station, index) => (
+                                    <div key={station.id} className="relative flex flex-col">
+                                      {/* Blinking light for upcoming station */}
+                                      <div className="absolute left-[-6px] top-4 w-3 h-3 rounded-full bg-metro-aqua-500 animate-pulse"></div>
+                                      
+                                      <div className="ml-4 flex items-center gap-2">
+                                        <span className="text-sm text-neutral-900 font-medium">
+                                          {station.name}
+                                        </span>
+                                        {index === 0 && (
+                                          <span className="text-xs px-2 py-1 bg-metro-yellow-100 text-metro-yellow-700 rounded">
+                                            Next
+                                          </span>
+                                        )}
+                                        {/* Interchange indicator */}
+                                        {isInterchangeStation(station.id) && (
+                                          <span className="text-xs px-2 py-1 bg-metro-aqua-100 text-metro-aqua-700 rounded flex items-center gap-1">
+                                            <Shuffle className="w-3 h-3" />
+                                            Interchange
+                                          </span>
+                                        )}
+                                      </div>
+                                      
+                                      {/* Interchange details */}
+                                      {isInterchangeStation(station.id) && (
+                                        <div className="ml-4 mt-1 text-xs text-neutral-600 flex items-center gap-1">
+                                          <ArrowRight className="w-3 h-3" />
+                                          Connects to Red, Yellow Lines
+                                        </div>
+                                      )}
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            </div>
+                          )}
                         </GlassCard>
                       </motion.div>
                     );
@@ -181,7 +260,7 @@ export function LiveTrackingPage() {
               </div>
             )}
 
-            {/* Stations List */}
+            {/* Stations List with Interchange Information */}
             <div className="mt-12">
               <h2 className="text-2xl font-bold text-neutral-900 mb-6">
                 Stations on {lines.find(l => l.code === selectedLine)?.name}
@@ -198,7 +277,15 @@ export function LiveTrackingPage() {
                           {index + 1}
                         </div>
                         <div>
-                          <div className="font-semibold text-neutral-900">{station.name}</div>
+                          <div className="font-semibold text-neutral-900 flex items-center gap-2">
+                            {station.name}
+                            {isInterchangeStation(station.id) && (
+                              <span className="text-xs px-2 py-1 bg-metro-aqua-100 text-metro-aqua-700 rounded flex items-center gap-1">
+                                <Shuffle className="w-3 h-3" />
+                                Interchange
+                              </span>
+                            )}
+                          </div>
                           <div className="text-sm text-neutral-700">{station.code}</div>
                         </div>
                       </div>

@@ -35,10 +35,11 @@ export function GlassCard({
   );
 }
 
-interface GlassButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface GlassButtonProps extends HTMLMotionProps<'button'> {
   variant?: 'primary' | 'secondary' | 'glass';
   size?: 'sm' | 'md' | 'lg';
   children: React.ReactNode;
+  className?: string;
 }
 
 export function GlassButton({ 
